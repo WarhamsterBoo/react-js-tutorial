@@ -14,11 +14,12 @@ export const getTopName = (teams: Team[]): string => {
 export type QsObj = Record<string, string | number | boolean | object>;
 
 export const createQs = (qsObj: QsObj): string => {
-  return Object.keys(qsObj).reduce<string>((queryStr, currentKey, index) => {
-    return `${queryStr}${index == 0 ? "" : "&"}${currentKey}=${
-      qsObj[currentKey]
-    }`;
-  }, "?");
+  return (
+    "?" +
+    Object.entries(qsObj)
+      .map((keyValuePair) => keyValuePair.join("="))
+      .join("&")
+  );
 };
 
 // Задание 3

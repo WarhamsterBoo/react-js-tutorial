@@ -24,16 +24,10 @@ export const originalTeamToExpectedTeam = (
 // Задание 2
 type SomeArray = Array<number | string>;
 
-export const originalArrayToExpectedArray = <T>(
-  originalArray: readonly T[]
+export const originalArrayToExpectedArray = (
+  originalArray: readonly (number | string)[]
 ): SomeArray => {
-  return originalArray.map((el, index) => {
-    if (index == 0) {
-      return "two";
-    } else {
-      return Number(el) + 1;
-    }
-  });
+  return ["two", ...originalArray.slice(2, originalArray.length), 5];
 };
 
 // Задание 3

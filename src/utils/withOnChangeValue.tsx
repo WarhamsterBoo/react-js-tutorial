@@ -18,7 +18,7 @@ export const withOnChangeValue = <P extends object>(
       props.onChangeValue &&
         props.onChangeValue((ev.target as HTMLInputElement).value);
     },
-    [props.onChange, props.onChangeValue]
+    [props]
   );
   return <Component {...props} onChange={onChange} />;
 };

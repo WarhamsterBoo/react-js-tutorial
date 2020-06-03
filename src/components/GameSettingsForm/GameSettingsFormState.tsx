@@ -26,7 +26,7 @@ export class GameSettingsFormState extends React.Component<
     player2Symbol: "O",
   };
 
-  handleSubmit = (ev: React.FormEvent) => {
+  handleSubmit = (ev: FormEvent) => {
     ev.preventDefault();
     this.props.onSubmit({
       player1: {
@@ -42,13 +42,20 @@ export class GameSettingsFormState extends React.Component<
     });
   };
 
-  handleFormInputChange = (ev: FormEvent<HTMLInputElement>) => {
+  componentDidUpdate() {
+    // eslint-disable-next-line no-console
+    console.log("@@GameSettingsFormState.componentDidUpdate");
+  }
+
+  handleFormInputChange = (
+    ev: FormEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     this.setState({
       [(ev.target as HTMLInputElement).getAttribute(
         "name"
       ) as keyof GameSettingsFormStateState]: (ev.target as HTMLInputElement)
         .value,
-    } as any);
+    } as object);
   };
 
   render() {

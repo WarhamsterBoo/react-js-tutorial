@@ -1,13 +1,16 @@
-import React from "react";
+import React, { Dispatch } from "react";
+import { AnyAction } from "redux";
 import { store } from "@/rdx/store";
+
+interface Props {
+  dispatch?: Dispatch<AnyAction>;
+}
 
 // if you want to get more info
 // try to check https://gist.github.com/gaearon/1d19088790e70ac32ea636c025ba424e
-export function withRedux<
-  Props extends object & { dispatch?: (action: any) => void }
->(
+export function withRedux(
   TargetComponent: React.ComponentType<Props>,
-  getPropsFromRedux: (state: any) => Partial<Props>
+  getPropsFromRedux: (state: object) => Partial<Props>
 ) {
   class WrappedComponent extends React.Component<
     Omit<Props, keyof ReturnType<typeof getPropsFromRedux>>,
@@ -39,6 +42,7 @@ export function withRedux<
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (WrappedComponent as any).displayName = `${TargetComponent.displayName}ConnectedToRedux`;
 
   return WrappedComponent;

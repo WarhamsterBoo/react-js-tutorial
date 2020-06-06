@@ -22,8 +22,11 @@ export const fetchData = (
 ): ThunkAction<Promise<void>, State, {}, AnyAction> => async (
   dispatch: ThunkDispatch<State, {}, AnyAction>
 ): Promise<void> => {
-  return new Promise<void>((resolve) => {
-    dispatch(loading());
-    resolve();
-  });
+  dispatch(loading());
+
+  return fetch(url)
+    .then((result) => result.json())
+    .then((data) => {
+      dispatch(success({ data }));
+    });
 };

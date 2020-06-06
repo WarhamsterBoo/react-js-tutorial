@@ -43,15 +43,25 @@ describe("async action creators", () => {
     fetchMock.restore();
   });
 
-  it("should dispatch loading action", async () => {
+  it("should dispatch LOADING + SUCCESS actions when fetch completed successfully", async () => {
     const store = mockStore({
       isLoading: false,
       data: undefined,
       error: undefined,
     });
 
+    fetchMock.getOnce("http://example.com/data", {
+      body: { id: 1 },
+      headers: { "content-type": "application/json" },
+    });
+
     await store
-      .dispatch(fetchData("http://example.com"))
-      .then(() => expect(store.getActions()).toEqual([loading()]));
+      .dispatch(fetchData("http://example.com/data"))
+      .then(() =>
+        expect(store.getActions()).toEqual([
+          loading(),
+          success({ data: { id: 1 }, error: undefined }),
+        ])
+      );
   });
 });

@@ -15,12 +15,12 @@ const initialState: State = {
 
 export const reducer = createReducer<State>(initialState, {
   [loading.type]: (state: State) => ({ ...state, isLoading: true }),
-  [success.type]: (state: State, action: PayloadAction<Payload>) => ({
+  [success.type]: (_, action: PayloadAction<Payload>) => ({
     isLoading: false,
     data: action.payload.data,
     error: undefined,
   }),
-  [failure.type]: (state: State, action: PayloadAction<Payload>) => ({
+  [failure.type]: (_, action: PayloadAction<Payload>) => ({
     isLoading: false,
     data: undefined,
     error: action.payload.error,

@@ -58,4 +58,21 @@ describe("reducer", () => {
       error: payload.error,
     });
   });
+
+  it("should clear data if failure action dispatched", () => {
+    const payload: Payload = {
+      error: { message: "something went worong" },
+    };
+
+    expect(
+      reducer(
+        {
+          isLoading: true,
+          data: { id: 1 },
+          error: undefined,
+        },
+        failure(payload)
+      ).data
+    ).toBeUndefined();
+  });
 });

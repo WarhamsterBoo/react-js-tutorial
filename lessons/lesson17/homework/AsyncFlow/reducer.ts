@@ -21,8 +21,8 @@ export const reducer = createReducer<State>(initialState, {
     error: undefined,
   }),
   [failure.type]: (state: State, action: PayloadAction<Payload>) => ({
-    ...state,
-    error: action.payload.error,
     isLoading: false,
+    data: undefined,
+    error: action.payload.error,
   }),
 });

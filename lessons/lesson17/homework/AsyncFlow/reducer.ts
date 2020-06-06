@@ -1,4 +1,5 @@
 import { createReducer } from "@reduxjs/toolkit";
+import { loading } from "./actions";
 
 export type State = {
   isLoading: true;
@@ -9,5 +10,5 @@ const initialState = {
 };
 
 export const reducer = createReducer(initialState, {
-  loading: (state) => state,
+  [loading.type]: (state) => ({ ...state, isLoading: true }),
 });

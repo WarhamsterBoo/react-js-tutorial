@@ -28,8 +28,22 @@ describe("reducer", () => {
     ).toEqual({
       isLoading: false,
       data: payload.data,
-      error: undefined,
     });
+  });
+
+  it("should clear error if success action dispatched", () => {
+    const payload = { data: { id: 1 } };
+
+    expect(
+      reducer(
+        {
+          isLoading: true,
+          data: undefined,
+          error: { message: "something went wrong" },
+        },
+        success(payload)
+      ).error
+    ).toBeUndefined();
   });
 
   it("should set error and isLoading == false when failure action dispatched", () => {
@@ -41,7 +55,6 @@ describe("reducer", () => {
       reducer({ ...defaultState, isLoading: true }, failure(payload))
     ).toEqual({
       isLoading: false,
-      data: undefined,
       error: payload.error,
     });
   });

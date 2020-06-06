@@ -2,23 +2,25 @@ import { createReducer, PayloadAction } from "@reduxjs/toolkit";
 import { loading, success, Payload, failure } from "./actions";
 
 export type State = {
-  isLoading: true;
+  isLoading: boolean;
   data: any | undefined;
+  error: any | undefined;
 };
 
-const initialState = {
+const initialState: State = {
   isLoading: false,
   data: undefined,
+  error: undefined,
 };
 
-export const reducer = createReducer(initialState, {
-  [loading.type]: (state) => ({ ...state, isLoading: true }),
-  [success.type]: (state, action: PayloadAction<Payload>) => ({
-    ...state,
-    data: action.payload.data,
+export const reducer = createReducer<State>(initialState, {
+  [loading.type]: (state: State) => ({ ...state, isLoading: true }),
+  [success.type]: (state: State, action: PayloadAction<Payload>) => ({
     isLoading: false,
+    data: action.payload.data,
+    error: undefined,
   }),
-  [failure.type]: (state, action: PayloadAction<Payload>) => ({
+  [failure.type]: (state: State, action: PayloadAction<Payload>) => ({
     ...state,
     error: action.payload.error,
     isLoading: false,

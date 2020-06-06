@@ -1,7 +1,7 @@
 import { createAction } from "@reduxjs/toolkit";
 
 export type Payload = {
-  data: any | undefined;
+  data?: any | undefined;
   error?: unknown | undefined;
 };
 

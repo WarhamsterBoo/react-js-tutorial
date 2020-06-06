@@ -1,5 +1,5 @@
 import { reducer } from "./reducer";
-import { loading, success } from "./actions";
+import { loading, success, failure, Payload } from "./actions";
 
 describe("reducer", () => {
   const defaultState = {
@@ -20,12 +20,29 @@ describe("reducer", () => {
     });
   });
 
-  it("should set data and isLoading false when succes action dispatched", () => {
+  it("should set data and isLoading == false when succes action dispatched", () => {
     const payload = { data: { id: 1 } };
 
-    expect(reducer(defaultState, success(payload))).toEqual({
+    expect(
+      reducer({ ...defaultState, isLoading: true }, success(payload))
+    ).toEqual({
       isLoading: false,
       data: payload.data,
+      error: undefined,
+    });
+  });
+
+  it("should set error and isLoading == false when failure action dispatched", () => {
+    const payload: Payload = {
+      error: { message: "something went worong" },
+    };
+
+    expect(
+      reducer({ ...defaultState, isLoading: true }, failure(payload))
+    ).toEqual({
+      isLoading: false,
+      data: undefined,
+      error: payload.error,
     });
   });
 });

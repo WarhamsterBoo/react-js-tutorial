@@ -1,5 +1,5 @@
 import { createReducer, PayloadAction } from "@reduxjs/toolkit";
-import { loading, success, Payload } from "./actions";
+import { loading, success, Payload, failure } from "./actions";
 
 export type State = {
   isLoading: true;
@@ -16,6 +16,11 @@ export const reducer = createReducer(initialState, {
   [success.type]: (state, action: PayloadAction<Payload>) => ({
     ...state,
     data: action.payload.data,
+    isLoading: false,
+  }),
+  [failure.type]: (state, action: PayloadAction<Payload>) => ({
+    ...state,
+    error: action.payload.error,
     isLoading: false,
   }),
 });

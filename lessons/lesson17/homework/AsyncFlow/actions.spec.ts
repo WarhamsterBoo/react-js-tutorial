@@ -1,9 +1,9 @@
 import { AnyAction } from "@reduxjs/toolkit";
-import fetchMock from "fetch-mock";
 import configureMockStore from "redux-mock-store";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import { failure, fetchData, loading, success } from "./actions";
 import { State } from "./reducer";
+import { enableFetchMocks } from "jest-fetch-mock";
 
 // These tests are kind of trivial. They are here for the education purposes
 describe("sync action creators", () => {
@@ -39,8 +39,12 @@ const mockStore = configureMockStore<
 >([thunk]);
 
 describe("async action creators", () => {
-  afterEach(() => {
-    fetchMock.restore();
+  beforeAll(() => {
+    enableFetchMocks();
+  });
+
+  beforeEach(() => {
+    fetchMock.mockReset();
   });
 
   it("should dispatch LOADING + SUCCESS actions when fetch completed successfully", async () => {
@@ -50,10 +54,7 @@ describe("async action creators", () => {
       error: undefined,
     });
 
-    fetchMock.getOnce("http://example.com/data", {
-      body: { id: 1 },
-      headers: { "content-type": "application/json" },
-    });
+    fetchMock.mockResponseOnce(JSON.stringify({ id: 1 }));
 
     await store
       .dispatch(fetchData("http://example.com/data"))
@@ -61,6 +62,29 @@ describe("async action creators", () => {
         expect(store.getActions()).toEqual([
           loading(),
           success({ data: { id: 1 }, error: undefined }),
+        ])
+      );
+  });
+
+  it("should dispatch LOADING + FAILURE actions when fetch completed with errors", async () => {
+    const store = mockStore({
+      isLoading: false,
+      data: undefined,
+      error: undefined,
+    });
+
+    fetchMock.mockResponseOnce(() => {
+      return new Promise(() => {
+        throw "something went wrong";
+      });
+    });
+
+    await store
+      .dispatch(fetchData("http://example.com/data"))
+      .then(() =>
+        expect(store.getActions()).toEqual([
+          loading(),
+          failure({ error: "something went wrong" }),
         ])
       );
   });

@@ -28,5 +28,8 @@ export const fetchData = (
     .then((result) => result.json())
     .then((data) => {
       dispatch(success({ data }));
+    })
+    .catch((error) => {
+      dispatch(failure({ error }));
     });
 };

@@ -24,7 +24,7 @@ export const People: React.FC<PeopleProps> = ({
       <button onClick={onFetchData}>Fetch</button>
       {isLoading && <div>Loading...</div>}
       {error && <div style={{ color: "red" }}>{error}</div>}
-      {data && (
+      {!isLoading && data && (
         <>
           <p>{JSON.stringify(data, undefined, 2)}</p>
         </>

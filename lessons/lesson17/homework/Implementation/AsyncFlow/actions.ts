@@ -9,6 +9,7 @@ import { State } from "./reducer";
 export type Payload = {
   data?: any | undefined;
   error?: unknown | undefined;
+  probability?: number;
 };
 
 export const loading = createAction("LOADING");
@@ -27,7 +28,8 @@ export const fetchData = (
   return fetch(url)
     .then(async (result) => {
       if (result.status == 200) {
-        dispatch(success({ data: await result.json() }));
+        //Probability added here just for demonstration of probabilityMiddleware
+        dispatch(success({ data: await result.json(), probability: 0.5 }));
       } else {
         dispatch(failure({ error: result.statusText }));
       }

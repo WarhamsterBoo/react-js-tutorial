@@ -33,4 +33,18 @@ describe("probabilityMiddleware", () => {
 
     expect(next).toBeCalledTimes(0);
   });
+
+  it("should execute aciton if probability is equal to 1", () => {
+    const next = jest.fn();
+    const sut = probabilityMiddleware({
+      dispatch: jest.fn(),
+      getState: jest.fn(),
+    });
+    const action = { type: "SOME_ACTION", payload: { probability: 1 } };
+
+    sut(next)(action);
+
+    expect(next).toBeCalledTimes(1);
+    expect(next).toBeCalledWith(action);
+  });
 });

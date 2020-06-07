@@ -1,11 +1,11 @@
 import { AnyAction } from "@reduxjs/toolkit";
+import { enableFetchMocks } from "jest-fetch-mock";
 import configureMockStore from "redux-mock-store";
 import thunk, { ThunkDispatch } from "redux-thunk";
 import { failure, fetchData, loading, success } from "./actions";
 import { State } from "./reducer";
-import { enableFetchMocks } from "jest-fetch-mock";
 
-// These tests are kind of trivial. They are here for the education purposes
+// These tests are kind of trivial. They are here jsut for the education purposes
 describe("sync action creators", () => {
   it("should create action to set loading", () => {
     expect(loading()).toEqual({
@@ -54,7 +54,7 @@ describe("async action creators", () => {
       error: undefined,
     });
 
-    fetchMock.mockResponseOnce(JSON.stringify({ id: 1 }));
+    fetchMock.mockResponse(JSON.stringify({ id: 1 }));
 
     await store
       .dispatch(fetchData("http://example.com/data"))
@@ -85,6 +85,28 @@ describe("async action creators", () => {
         expect(store.getActions()).toEqual([
           loading(),
           failure({ error: "something went wrong" }),
+        ])
+      );
+  });
+
+  it("should dispatch LOADING + FAILURE actions when fetch is not completed with 200", async () => {
+    const store = mockStore({
+      isLoading: false,
+      data: undefined,
+      error: undefined,
+    });
+
+    fetchMock.mockResponse("http://example.com/data", {
+      status: 404,
+      statusText: "not found",
+    });
+
+    await store
+      .dispatch(fetchData("http://example.com/data"))
+      .then(() =>
+        expect(store.getActions()).toEqual([
+          loading(),
+          failure({ error: "not found" }),
         ])
       );
   });

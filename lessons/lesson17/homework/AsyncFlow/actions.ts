@@ -25,9 +25,12 @@ export const fetchData = (
   dispatch(loading());
 
   return fetch(url)
-    .then((result) => result.json())
-    .then((data) => {
-      dispatch(success({ data }));
+    .then(async (result) => {
+      if (result.status == 200) {
+        dispatch(success({ data: await result.json() }));
+      } else {
+        dispatch(failure({ error: result.statusText }));
+      }
     })
     .catch((error) => {
       dispatch(failure({ error }));

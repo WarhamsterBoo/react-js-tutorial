@@ -20,4 +20,17 @@ describe("probabilityMiddleware", () => {
       expect(next).toBeCalledWith(action);
     }
   );
+
+  it("should not execute aciton if probability is equal to 0", () => {
+    const next = jest.fn();
+    const sut = probabilityMiddleware({
+      dispatch: jest.fn(),
+      getState: jest.fn(),
+    });
+    const action = { type: "SOME_ACTION", payload: { probability: 0 } };
+
+    sut(next)(action);
+
+    expect(next).toBeCalledTimes(0);
+  });
 });

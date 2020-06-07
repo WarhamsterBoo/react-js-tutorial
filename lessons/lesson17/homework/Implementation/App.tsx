@@ -2,7 +2,7 @@ import React from "react";
 import { connect, Provider } from "react-redux";
 import { fetchData } from "./AsyncFlow/actions";
 import { State } from "./AsyncFlow/reducer";
-import { store } from "./AsyncFlow/store";
+import { AppStore } from "./AppStore";
 import { People } from "./People";
 
 const mapStateToProps = (state: State) => {
@@ -21,7 +21,7 @@ const PeopleWithStore = connect(mapStateToProps, mapDispatchToProps)(People);
 
 export const App: React.FC<{}> = () => {
   return (
-    <Provider store={store}>
+    <Provider store={AppStore}>
       <PeopleWithStore />
     </Provider>
   );

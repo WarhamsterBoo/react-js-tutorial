@@ -1,9 +1,9 @@
 import React from "react";
 import { connect, Provider } from "react-redux";
+import { AppStore } from "./AppStore";
 import { fetchData } from "./AsyncFlow/actions";
 import { State } from "./AsyncFlow/reducer";
-import { AppStore } from "./AppStore";
-import { People } from "./People";
+import { People } from "./People/People";
 
 const mapStateToProps = (state: State) => {
   return {

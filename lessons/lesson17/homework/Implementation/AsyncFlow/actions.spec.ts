@@ -61,7 +61,7 @@ describe("async action creators", () => {
       .then(() =>
         expect(store.getActions()).toEqual([
           loading(),
-          success({ data: { id: 1 }, error: undefined }),
+          success({ data: { id: 1 }, error: undefined, probability: 0.5 }),
         ])
       );
   });

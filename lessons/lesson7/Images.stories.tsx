@@ -1,8 +1,9 @@
+import { boolean, number, withKnobs } from "@storybook/addon-knobs";
+import { storiesOf } from "@storybook/react";
 import React from "react";
-import { withKnobs, number } from "@storybook/addon-knobs";
 import { ImageLocal } from "./ImageLocal";
-import { ImageServer } from "./ImageServer";
 import { ImageRandom } from "./ImageRandom";
+import { ImageServer } from "./ImageServer";
 
 storiesOf("Images", module)
   .addDecorator(withKnobs)

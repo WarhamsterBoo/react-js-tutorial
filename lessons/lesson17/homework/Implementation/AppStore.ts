@@ -1,9 +1,9 @@
-import { createStore, applyMiddleware } from "redux";
+import { applyMiddleware, createStore } from "redux";
 import { reducer } from "./AsyncFlow/reducer";
-import thunk from "redux-thunk";
 import { probabilityMiddleware } from "./Probability/probabilityMiddleware";
+import { thunkMiddleware } from "./ThunkMIddleware/thunkMiddleware";
 
 export const AppStore = createStore(
   reducer,
-  applyMiddleware(thunk, probabilityMiddleware)
+  applyMiddleware(thunkMiddleware, probabilityMiddleware)
 );

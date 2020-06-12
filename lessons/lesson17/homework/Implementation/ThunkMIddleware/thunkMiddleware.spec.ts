@@ -1,12 +1,21 @@
 import { thunkMiddleware } from "./thunkMiddleware";
 
 describe("thunkMiddleware", () => {
-  it("should execute action", () => {
-    const action = { type: "SOMEACTION" };
-    const next = jest.fn();
-    const sut = thunkMiddleware({
+  const create = () => {
+    return {
+      action: jest.fn(),
+      next: jest.fn(),
       dispatch: jest.fn(),
       getState: jest.fn(),
+    };
+  };
+
+  it("should execute action", () => {
+    const { next, dispatch, getState } = create();
+    const action = { type: "SOMEACTION" };
+    const sut = thunkMiddleware({
+      dispatch,
+      getState,
     });
 
     sut(next)(action);
@@ -16,10 +25,7 @@ describe("thunkMiddleware", () => {
   });
 
   it("should call action if its a thunk action with correct arguments", () => {
-    const action = jest.fn();
-    const next = jest.fn();
-    const dispatch = jest.fn();
-    const getState = jest.fn();
+    const { action, next, dispatch, getState } = create();
     const sut = thunkMiddleware({
       dispatch,
       getState,
@@ -32,10 +38,7 @@ describe("thunkMiddleware", () => {
   });
 
   it("should not call next if action is a think action", () => {
-    const action = jest.fn();
-    const next = jest.fn();
-    const dispatch = jest.fn();
-    const getState = jest.fn();
+    const { action, next, dispatch, getState } = create();
     const sut = thunkMiddleware({
       dispatch,
       getState,

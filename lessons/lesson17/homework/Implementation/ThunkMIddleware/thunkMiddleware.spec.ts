@@ -48,4 +48,17 @@ describe("thunkMiddleware", () => {
 
     expect(next).toBeCalledTimes(0);
   });
+
+  it("should return the result from action if is a thunk function", () => {
+    const action = jest.fn().mockReturnValue("123");
+    const { next, dispatch, getState } = create();
+    const sut = thunkMiddleware({
+      dispatch,
+      getState,
+    });
+
+    const result = sut(next)(action);
+
+    expect(result).toEqual("123");
+  });
 });

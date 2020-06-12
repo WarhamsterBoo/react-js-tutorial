@@ -4,8 +4,7 @@ export const thunkMiddleware: ThunkMiddleware = ({ dispatch, getState }) => (
   next
 ) => (action) => {
   if (typeof action === "function") {
-    action(dispatch, getState);
-    return action;
+    return action(dispatch, getState);
   }
   return next(action);
 };

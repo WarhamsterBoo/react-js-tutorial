@@ -14,4 +14,20 @@ describe("thunkMiddleware", () => {
     expect(next).toBeCalledTimes(1);
     expect(next).toBeCalledWith(action);
   });
+
+  it("should call action if its a thunk action with correct arguments", () => {
+    const action = jest.fn();
+    const next = jest.fn();
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+    const sut = thunkMiddleware({
+      dispatch,
+      getState,
+    });
+
+    sut(next)(action);
+
+    expect(action).toBeCalledTimes(1);
+    expect(action).toBeCalledWith({ dispatch, getState });
+  });
 });

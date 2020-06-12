@@ -28,6 +28,21 @@ describe("thunkMiddleware", () => {
     sut(next)(action);
 
     expect(action).toBeCalledTimes(1);
-    expect(action).toBeCalledWith({ dispatch, getState });
+    expect(action).toBeCalledWith(dispatch, getState);
+  });
+
+  it("should not call next if action is a think action", () => {
+    const action = jest.fn();
+    const next = jest.fn();
+    const dispatch = jest.fn();
+    const getState = jest.fn();
+    const sut = thunkMiddleware({
+      dispatch,
+      getState,
+    });
+
+    sut(next)(action);
+
+    expect(next).toBeCalledTimes(0);
   });
 });
